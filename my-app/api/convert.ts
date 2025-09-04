@@ -7,19 +7,29 @@ interface Calendar {
     exams: string[] | null,
 }
 
+// Converts request (with PDF) to calendar
+function convert(req: VercelRequest): Calendar[] {
+    const parsedPDFText = '';
+    // TODO: Parse/Get PDF file from req
+
+    return getCalendarJsonUsingAI(parsedPDFText)
+}
+
+// Uses OpenAI with a prompt to get an array of Calendars
+function getCalendarJsonUsingAI(content: string): Calendar[] {
+    const prompt = '';
+}
+
 export async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') {
         res.status(405).json({ error: 'Method not allowed' });
     }
 
     try {
-        // TODO:
-        // Organize/parse PDF file if neccessary
-        // Use OpenAI API with proper prompt, ensuring AI returns JSON as Calendar interface
-        // Return with 200 status with JSON calendar
-        // Later/Optional: Send API to Google Calendar to sync (Could be done through another endpoint)
+        // Payload size limit set to 6MB due to Vercel free plan limit
 
-        res.status(200).json({})
+        const data = convert(req)
+        res.status(200).json({ calendar: data })
     } catch (error) {
         res.status(400).json({ error: error })
     }
