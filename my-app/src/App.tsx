@@ -4,7 +4,7 @@ import './App.css'
 function App() {
   const API_URL = 'api/convert'; // TODO: Create backend endpoint, if using Vercel create serverless /api endpoint
   const [file, setFile] = useState<File | null>(null);
-  const [isConverting, setIsConverting] = useState<boolean>(true)
+  const [isConverting, setIsConverting] = useState<boolean>(false)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = e?.target?.files?.[0] || null;
