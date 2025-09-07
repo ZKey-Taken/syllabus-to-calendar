@@ -6,7 +6,7 @@ export interface Calendar {
 }
 
 export interface CalendarResponse {
-    status: number,
+    success: boolean,
     data: Calendar[],
     error: string | null
 }

@@ -1,4 +1,5 @@
 "use client";
+import { convertResToCalendarRes } from "@/Utils/establishType";
 import { useState, ChangeEvent, useRef } from "react";
 
 export default function Home() {
@@ -28,29 +29,27 @@ export default function Home() {
     const formData = new FormData()
     formData.append('file', file);
 
+    // Trycatch parses response data
     try {
       const res = await fetch(API_URL, {
         method: 'POST',
         body: formData,
       });
 
-      const result = await res.json();
-      console.log(result)
-      if (result?.status) {
-        console.log("Ok")
-      } else {
-        console.log("Not ok")
+      const result = await convertResToCalendarRes(res);
+      if (result.success) {
+        console.log("CalendarObj:", result.data);
       }
     } catch (error) {
       alert("Error: " + error);
+    } finally {
+      setIsConverting(false)
     }
-
-    setIsConverting(false)
   }
 
-  // Only allowing pdf uploads
+  // Simple frontend file upload, only pdf files are allowed
   return (
-    <div className="flex flex-col h-screen text-center">
+    <div className="flex flex-col text-center">
       <h1 className="text-3xl font-bold text-amber-200 justify-center py-10 px-2">
         Syllabus to Calendar
       </h1>

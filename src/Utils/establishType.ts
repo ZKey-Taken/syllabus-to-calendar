@@ -1,13 +1,16 @@
 import { CalendarResponse } from "@/types/calendarTypes";
 
-export async function convertTypeToCalendarRes(response: Response): Promise<CalendarResponse> {
+export async function convertResToCalendarRes(response: Response): Promise<CalendarResponse> {
     const result = await response.json();
+    const succeed = true;
 
     if ("status" in result && "data" in result) {
-        return { status: result.status, data: result.data, error: null }
+        if (result.status >= 200 && result.status < 300) {
+            return { success: succeed, data: result.data, error: null }
+        }
     } else if ("error" in result) {
-        return { status: 500, data: [], error: result.error }
+        return { success: !succeed, data: [], error: result.error }
     }
 
-    return { status: 400, data: [], error: null }
+    return { success: !succeed, data: [], error: null }
 }
