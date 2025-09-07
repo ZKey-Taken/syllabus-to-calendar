@@ -11,8 +11,9 @@ A web app that transforms syllabus PDFs into a calendar view and syncs them with
 
 ## Tech Stack
 
-- Frontend: React + Vite + TypeScript
+- Frontend: React + TypeScript
 - Backend: Node.js + TypeScript
+- Framework: Nextjs
 - AI: OpenAI API
 - Calendar Integration: Google Calendar API (Optional)
 

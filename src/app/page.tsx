@@ -1,7 +1,6 @@
-import { useState, type ChangeEvent } from 'react'
-import './App.css'
+import { useState, ChangeEvent } from "react";
 
-function App() {
+export default function Home() {
   const API_URL = 'api/convert'; // TODO: Create backend endpoint, if using Vercel create serverless /api endpoint
   const [file, setFile] = useState<File | null>(null);
   const [isConverting, setIsConverting] = useState<boolean>(false)
@@ -27,13 +26,12 @@ function App() {
         body: formData,
       });
 
+      const result = await res.json();
+      console.log("Result: ", result);
       if (res.ok) {
-        const result = await res.json();
-
-        console.log("Result:", result);
-        alert("Success!");
+        console.log("Ok")
       } else {
-        alert("Something went wrong!");
+        console.log("Not ok")
       }
     } catch (error) {
       alert("Error: " + error);
@@ -45,7 +43,7 @@ function App() {
   // Only allowing pdf uploads
   return (
     <div>
-      <h1>Syllabus to Calendar</h1>
+      <h1 >Syllabus to Calendar</h1>
       <div id='inputDiv'>
         <input type='file' accept='.pdf' onChange={handleFileChange} />
         <button onClick={handleUploadClick} disabled={!file}>Submit</button>
@@ -54,5 +52,3 @@ function App() {
     </div>
   )
 }
-
-export default App

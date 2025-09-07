@@ -1,5 +1,3 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
-
 interface Calendar {
     date: string,
     assignments: string[] | null,
@@ -8,7 +6,7 @@ interface Calendar {
 }
 
 // Converts request (with PDF) to calendar
-function convert(req: VercelRequest): Calendar[] {
+function convert(req: Request): Calendar[] {
     const parsedPDFText = '';
     // TODO: Parse/Get PDF file from req
 
@@ -18,19 +16,16 @@ function convert(req: VercelRequest): Calendar[] {
 // Uses OpenAI with a prompt to get an array of Calendars
 function getCalendarJsonUsingAI(content: string): Calendar[] {
     const prompt = '';
+    return []
 }
 
-export async function handler(req: VercelRequest, res: VercelResponse) {
-    if (req.method !== 'POST') {
-        res.status(405).json({ error: 'Method not allowed' });
-    }
-
+export async function POST(req: Request) {
     try {
         // Payload size limit set to 6MB due to Vercel free plan limit
+        console.log("Req:", req)
 
-        const data = convert(req)
-        res.status(200).json({ calendar: data })
+        return Response.json({ status: 200, data: null })
     } catch (error) {
-        res.status(400).json({ error: error })
+        return Response.json({ status: 400, error: error })
     }
 }
