@@ -1,12 +1,7 @@
-interface Calendar {
-    date: string,
-    assignments: string[] | null,
-    readings: string[] | null,
-    exams: string[] | null,
-}
+import { Calendar } from "@/types/calendarTypes";
 
-// Converts request (with PDF) to calendar
-function convert(req: Request): Calendar[] {
+// Converts PDF to calendar
+function convert(pdfFile: ReadableStream): Calendar[] {
     const parsedPDFText = '';
     // TODO: Parse/Get PDF file from req
 
@@ -22,7 +17,6 @@ function getCalendarJsonUsingAI(content: string): Calendar[] {
 export async function POST(req: Request) {
     try {
         // Payload size limit set to 6MB due to Vercel free plan limit
-        console.log("Req:", req)
 
         return Response.json({ status: 200, data: null })
     } catch (error) {
