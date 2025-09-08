@@ -14,3 +14,12 @@ export async function convertResToCalendarRes(response: Response): Promise<Calen
 
     return { success: !succeed, data: [], error: null }
 }
+
+
+export function toFileType(formDataFile: FormDataEntryValue | null): File | null {
+    if (formDataFile instanceof File) {
+        return formDataFile;
+    }
+
+    return null;
+}

@@ -4,6 +4,7 @@ import { useState, ChangeEvent, useRef } from "react";
 
 export default function Home() {
   const API_URL = 'api/convert';
+  const maxFileSize = 2 * 1024 * 1024; // 2MB
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -16,6 +17,14 @@ export default function Home() {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = e?.target?.files?.[0] || null;
+
+    // File constraints, 2MB max upload size
+    if (!uploadedFile) return;
+    else if (uploadedFile.size > maxFileSize) {
+      alert("File size cannot exceed 2MB");
+      return;
+    }
+
     setFile(uploadedFile);
   }
 

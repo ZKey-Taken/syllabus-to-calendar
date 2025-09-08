@@ -1,25 +1,30 @@
 import { Calendar } from "@/types/calendarTypes";
+import { toFileType } from "@/Utils/establishType";
 
-// Converts PDF to calendar
-function convert(pdfFile: ReadableStream): Calendar[] {
-    const parsedPDFText = '';
-    // TODO: Parse/Get PDF file from req
-
-    return getCalendarJsonUsingAI(parsedPDFText)
-}
-
-// Uses OpenAI with a prompt to get an array of Calendars
-function getCalendarJsonUsingAI(content: string): Calendar[] {
-    const prompt = '';
-    return []
+// Use OpenAI API to create calendar array
+async function PDFToCalendar(pdfFile: File): Promise<Calendar[]> {
+    // Use OpenAI to
+    return [];
 }
 
 export async function POST(req: Request) {
     try {
-        // Payload size limit set to 6MB due to Vercel free plan limit
+        // Parse FormData from request
+        const formData = await req.formData();
+        const fileFormData = formData.get("file");
+        const file = toFileType(fileFormData);
+
+        // Validate file (size <= 2MB)
+        if (!file) {
+            return Response.json({ status: 500, error: "File not uploaded" })
+        } else if (file.size > 2 * 1024 * 1024) {
+            return Response.json({ status: 500, error: "File size exceeds 2MB" })
+        }
+
+
 
         return Response.json({ status: 200, data: null })
     } catch (error) {
-        return Response.json({ status: 400, error: error })
+        return Response.json({ status: 500, error: error })
     }
 }
