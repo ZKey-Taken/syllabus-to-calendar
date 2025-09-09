@@ -1,4 +1,4 @@
-import { Calendar } from "@/types/calendarTypes";
+import { CalendarObj } from "@/types/calendarTypes";
 import { toFileType } from "@/Utils/establishType";
 import OpenAI from "openai";
 
@@ -20,7 +20,7 @@ const prompt: string = `Extract calendar data as JSON array matching this TypeSc
           Use null for empty categories, not empty arrays.`;
 
 // Use OpenAI Response API to create calendar array
-async function PDFToCalendar(pdfFile: File): Promise<Calendar[]> {
+async function PDFToCalendar(pdfFile: File): Promise<CalendarObj[]> {
     // Doc: https://platform.openai.com/docs/quickstart?input-type=file-upload#analyze-images-and-files
 
     const attachedFile = await openAI_Client.files.create({
@@ -55,7 +55,7 @@ async function PDFToCalendar(pdfFile: File): Promise<Calendar[]> {
     const endIndex = output.lastIndexOf(']');
     const jsonString = output.slice(startIndex, endIndex + 1);
 
-    const calendarJson = JSON.parse(jsonString);
+    const calendarJson: CalendarObj[] = JSON.parse(jsonString);
     return calendarJson;
 }
 

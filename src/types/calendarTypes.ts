@@ -1,4 +1,4 @@
-export interface Calendar {
+export interface CalendarObj {
     date: string,
     assignments: string[] | null,
     readings: string[] | null,
@@ -7,6 +7,6 @@ export interface Calendar {
 
 export interface CalendarResponse {
     success: boolean,
-    data: Calendar[],
+    data: CalendarObj[],
     error: string | null
 }
