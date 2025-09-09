@@ -1,7 +1,16 @@
-import { CalendarObj } from "@/types/calendarTypes";
+import { CalendarArr } from "@/types/calendarTypes";
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
 
-export default function Calendar(calendar: CalendarObj[]) {
+export default function Calendar({ calendar }: CalendarProp) {
     return (
-        <div>Calendar</div>
+        <FullCalendar
+            plugins={[dayGridPlugin]}
+            initialView="dayGridMonth"
+        />
     )
+}
+
+interface CalendarProp {
+    calendar: CalendarArr;
 }

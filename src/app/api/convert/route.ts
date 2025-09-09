@@ -1,4 +1,4 @@
-import { CalendarObj } from "@/types/calendarTypes";
+import { CalendarArr, CalendarObj } from "@/types/calendarTypes";
 import { toFileType } from "@/Utils/establishType";
 import OpenAI from "openai";
 
@@ -55,7 +55,7 @@ async function PDFToCalendar(pdfFile: File): Promise<CalendarObj[]> {
     const endIndex = output.lastIndexOf(']');
     const jsonString = output.slice(startIndex, endIndex + 1);
 
-    const calendarJson: CalendarObj[] = JSON.parse(jsonString);
+    const calendarJson: CalendarArr = JSON.parse(jsonString);
     return calendarJson;
 }
 

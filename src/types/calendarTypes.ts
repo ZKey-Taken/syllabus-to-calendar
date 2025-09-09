@@ -1,3 +1,5 @@
+export type CalendarArr = CalendarObj[];
+
 export interface CalendarObj {
     date: string,
     assignments: string[] | null,
