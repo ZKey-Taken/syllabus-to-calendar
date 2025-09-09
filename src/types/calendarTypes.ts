@@ -12,3 +12,12 @@ export interface CalendarResponse {
     data: CalendarObj[],
     error: string | null
 }
+
+export type CalendarEventArr = CalendarEvent[];
+
+export interface CalendarEvent {
+    title: string,
+    start: string,
+    allDay: boolean,
+    // More attributes can be added, doc: https://fullcalendar.io/docs#toc
+}
