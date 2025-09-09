@@ -76,7 +76,7 @@ export default function Home() {
       </div>
 
       <div className="flex justify-center p-1">
-        <button className="border rounded-2xl px-2 py-1 bg-emerald-600" onClick={handleUploadClick} hidden={!file}>
+        <button className="border rounded-2xl px-2 py-1 bg-emerald-600 mb-12" onClick={handleUploadClick} hidden={!file}>
           Convert To Calendar
         </button>
       </div>
@@ -84,7 +84,7 @@ export default function Home() {
       <input ref={fileInputRef} type="file" accept="application/pdf" hidden onChange={handleFileChange} />
 
       {isConverting &&
-        <h3 className="text-2xl font-bold pt-12">
+        <h3 className="text-2xl font-bold">
           Please wait, converting PDF to calendar ...
         </h3>
       }

@@ -1,10 +1,9 @@
 import { CalendarArr, CalendarEventArr } from "@/types/calendarTypes";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import multiMonthPlugin from '@fullcalendar/multimonth';
 
 export default function Calendar({ calendar }: CalendarProp) {
-    console.log("Calendar:", calendar);
-
     const transformDataToEvents = (data: CalendarArr): CalendarEventArr => {
         const events: CalendarEventArr = [];
 
@@ -33,12 +32,19 @@ export default function Calendar({ calendar }: CalendarProp) {
     }
 
     return (
-        <FullCalendar
-            plugins={[dayGridPlugin]}
-            initialView="dayGridMonth"
-            events={transformDataToEvents(calendar)}
-            aspectRatio={2}
-        />
+        <div className="bg-black">
+            <FullCalendar
+                plugins={[dayGridPlugin, multiMonthPlugin]}
+                initialView="dayGridMonth"
+                events={transformDataToEvents(calendar)}
+                aspectRatio={2}
+                headerToolbar={{
+                    left: 'prev,today,next',
+                    center: 'title',
+                    right: 'dayGridMonth,multiMonthYear'
+                }}
+            />
+        </div>
     )
 }
 
