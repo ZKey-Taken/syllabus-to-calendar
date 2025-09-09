@@ -45,11 +45,18 @@ async function PDFToCalendar(pdfFile: File): Promise<Calendar[]> {
         }]
     })
 
-    console.log("aiResponse: ", aiResponse); // For debug purposes only
+    if ("error" in aiResponse && aiResponse.error !== null) {
+        throw new Error(aiResponse.error.message);
+    }
 
-    // Todo: Parse JSON object from AI response into Calendar[] and return it
+    // Parse AI output into JSON string
+    const output: string = aiResponse.output_text;
+    const startIndex = output.indexOf('[');
+    const endIndex = output.lastIndexOf(']');
+    const jsonString = output.slice(startIndex, endIndex + 1);
 
-    return [];
+    const calendarJson = JSON.parse(jsonString);
+    return calendarJson;
 }
 
 export async function POST(req: Request) {
@@ -66,9 +73,9 @@ export async function POST(req: Request) {
             return Response.json({ status: 500, error: "File size exceeds 2MB" });
         }
 
-        // const calendar = await PDFToCalendar(file);
+        const calendar = await PDFToCalendar(file);
 
-        return Response.json({ status: 200, data: null });
+        return Response.json({ status: 200, data: calendar });
     } catch (error) {
         return Response.json({ status: 500, error: error });
     }

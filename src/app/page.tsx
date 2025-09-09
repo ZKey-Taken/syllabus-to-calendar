@@ -46,8 +46,11 @@ export default function Home() {
       });
 
       const result = await convertResToCalendarRes(res);
+      console.log("result:", result);
       if (result.success) {
         console.log("CalendarObj:", result.data);
+      } else {
+        console.log("Error:", result?.error);
       }
     } catch (error) {
       alert("Error: " + error);
