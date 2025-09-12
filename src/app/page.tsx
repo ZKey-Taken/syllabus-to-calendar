@@ -1,6 +1,6 @@
 "use client";
 import Calendar from "@/components/calendar";
-import { CalendarArr } from "@/types/calendarTypes";
+import { CalendarObj } from "@/types/calendarTypes";
 import { convertResToCalendarRes } from "@/Utils/establishType";
 import { useState, ChangeEvent, useRef } from "react";
 
@@ -11,7 +11,7 @@ export default function Home() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [isConverting, setIsConverting] = useState<boolean>(false)
-  const [calendar, setCalendar] = useState<CalendarArr | null>(null);
+  const [calendar, setCalendar] = useState<CalendarObj | null>(null);
 
   const showFileUploadUI = () => {
     if (!fileInputRef?.current) return;
@@ -88,6 +88,7 @@ export default function Home() {
           Please wait, converting PDF to calendar ...
         </h3>
       }
+
       {!isConverting && calendar &&
         <Calendar calendar={calendar} />
       }

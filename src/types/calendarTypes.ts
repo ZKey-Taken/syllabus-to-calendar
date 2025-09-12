@@ -1,23 +1,23 @@
-export type CalendarArr = CalendarObj[];
+export type CalendarObj = CalendarEvent[];
 
-export interface CalendarObj {
-    date: string,
-    assignments: string[] | null,
-    readings: string[] | null,
-    exams: string[] | null,
+export interface CalendarEvent {
+    start: Date,
+    end?: Date,
+    event: string, // Exam/Assignment/Reading/Etc
 }
 
 export interface CalendarResponse {
     success: boolean,
-    data: CalendarObj[],
+    data: CalendarEvent[],
     error: string | null
 }
 
-export type CalendarEventArr = CalendarEvent[];
+export type FullCalendarObj = FullCalendarEvent[];
 
-export interface CalendarEvent {
+export interface FullCalendarEvent {
     title: string,
-    start: string,
-    allDay: boolean,
+    start: Date,
+    end?: Date,
+    allDay?: boolean,
     // More attributes can be added, doc: https://fullcalendar.io/docs#toc
 }

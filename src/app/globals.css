@@ -26,3 +26,48 @@ body {
 button {
   cursor: pointer;
 }
+
+/* Tooltip wrapper */
+.fc .fc-event {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Hidden tooltip text */
+.fc .fc-event .fc-tooltip {
+  visibility: hidden;
+  background-color: skyblue;
+  color: #fff;
+  text-align: center;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  position: absolute;
+  z-index: 10;
+  bottom: 100%; /* above the title */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* Show tooltip on hover */
+.fc .fc-event:hover .fc-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Below CSS are for MultiMonth/Year view */
+/* More event button */
+.my-more-link {
+  color: blue;
+  font-weight: bold;
+}
+
+/* Text color and size */
+.fc-multimonth .fc-daygrid-day-number {
+  color: black !important;
+  font-size: 12px;
+  font-weight: normal;
+}

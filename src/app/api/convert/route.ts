@@ -1,4 +1,4 @@
-import { CalendarArr, CalendarObj } from "@/types/calendarTypes";
+import { CalendarObj } from "@/types/calendarTypes";
 import { toFileType } from "@/Utils/establishType";
 import OpenAI from "openai";
 
@@ -9,18 +9,19 @@ const openAI_Client = new OpenAI({
 const prompt: string = `Extract calendar data as JSON array matching this TypeScript interface:
           
           interface Calendar {
-            date: string,           // YYYY-MM-DD format
-            assignments: string[] | null,
-            readings: string[] | null,
-            exams: string[] | null,
+            start: Date,
+            end?: Date,
+            event: string,
           }
           
           Return: Calendar[]
           
-          Use null for empty categories, not empty arrays.`;
+          Rules:
+          - If end date doesn't exist in an event, don't include end date in the instance.
+          - If there're multiple events on the same date, make multiple calendar instances.`;
 
 // Use OpenAI Response API to create calendar array
-async function PDFToCalendar(pdfFile: File): Promise<CalendarObj[]> {
+async function PDFToCalendar(pdfFile: File): Promise<CalendarObj> {
     // Doc: https://platform.openai.com/docs/quickstart?input-type=file-upload#analyze-images-and-files
 
     const attachedFile = await openAI_Client.files.create({
@@ -55,7 +56,7 @@ async function PDFToCalendar(pdfFile: File): Promise<CalendarObj[]> {
     const endIndex = output.lastIndexOf(']');
     const jsonString = output.slice(startIndex, endIndex + 1);
 
-    const calendarJson: CalendarArr = JSON.parse(jsonString);
+    const calendarJson: CalendarObj = JSON.parse(jsonString);
     return calendarJson;
 }
 

@@ -1,53 +1,50 @@
-import { CalendarArr, CalendarEventArr } from "@/types/calendarTypes";
+import { CalendarObj, FullCalendarObj } from "@/types/calendarTypes";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import multiMonthPlugin from '@fullcalendar/multimonth';
 
 export default function Calendar({ calendar }: CalendarProp) {
-    const transformDataToEvents = (data: CalendarArr): CalendarEventArr => {
-        const events: CalendarEventArr = [];
+    const transformDataToEvents = (data: CalendarObj): FullCalendarObj => {
+        const events: FullCalendarObj = [];
 
         data.forEach(item => {
-            const startDate = item.date;
-            const isAllDay = true;
+            const startDate = item.start;
+            const endDate = item.end;
+            const isAllDay = endDate === undefined ? true : false;
 
-            if (item.assignments) {
-                item.assignments.forEach(assignmentName => {
-                    events.push({ title: assignmentName, start: startDate, allDay: isAllDay });
-                });
-            }
-            if (item.exams) {
-                item.exams.forEach(examName => {
-                    events.push({ title: examName, start: startDate, allDay: isAllDay });
-                });
-            }
-            if (item.readings) {
-                item.readings.forEach(readingName => {
-                    events.push({ title: readingName, start: startDate, allDay: isAllDay });
-                });
-            }
+            events.push({ title: item.event, start: startDate, end: endDate, allDay: isAllDay });
         });
 
         return events;
     }
 
     return (
-        <div className="bg-black">
-            <FullCalendar
-                plugins={[dayGridPlugin, multiMonthPlugin]}
-                initialView="dayGridMonth"
-                events={transformDataToEvents(calendar)}
-                aspectRatio={2}
-                headerToolbar={{
-                    left: 'prev,today,next',
-                    center: 'title',
-                    right: 'dayGridMonth,multiMonthYear'
-                }}
-            />
-        </div>
+        <FullCalendar
+            plugins={[dayGridPlugin, multiMonthPlugin]}
+            initialView="dayGridMonth"
+            events={transformDataToEvents(calendar)}
+            aspectRatio={2}
+            headerToolbar={{
+                left: 'prev,today,next',
+                center: 'title',
+                right: 'dayGridMonth,multiMonthYear'
+            }}
+            moreLinkClassNames={['my-more-link']}
+            moreLinkContent={() => {
+                // Change "+n more" to "Expand"
+                return `Expand`;
+            }}
+            eventDidMount={(info) => {
+                // Custom Tooltip for event title, triggers when hovering
+                const tooltip = document.createElement('span');
+                tooltip.className = 'fc-tooltip';
+                tooltip.innerText = info.event.title;
+                info.el.appendChild(tooltip);
+            }}
+        />
     )
 }
 
 interface CalendarProp {
-    calendar: CalendarArr;
+    calendar: CalendarObj;
 }
