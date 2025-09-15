@@ -2,9 +2,6 @@ import { CalendarObj } from "@/types/calendarTypes";
 import { toFileType } from "@/Utils/establishType";
 import OpenAI from "openai";
 
-const openAI_Client = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
 
 const prompt: string = `Extract calendar data as JSON array matching this TypeScript interface:
           
@@ -21,8 +18,12 @@ const prompt: string = `Extract calendar data as JSON array matching this TypeSc
           - If there're multiple events on the same date, make multiple calendar instances.`;
 
 // Use OpenAI Response API to create calendar array
-async function PDFToCalendar(pdfFile: File): Promise<CalendarObj> {
+async function PDFToCalendar(pdfFile: File, API_KEY: string): Promise<CalendarObj> {
     // Doc: https://platform.openai.com/docs/quickstart?input-type=file-upload#analyze-images-and-files
+
+    const openAI_Client = new OpenAI({
+        apiKey: API_KEY,
+    });
 
     const attachedFile = await openAI_Client.files.create({
         file: pdfFile,
@@ -65,16 +66,23 @@ export async function POST(req: Request) {
         // Parse FormData from request
         const formData = await req.formData();
         const fileFormData = formData.get("file");
+        const apiKeyFormData = formData.get("api_key") as string;
         const file = toFileType(fileFormData);
 
+        const API_KEY = process.env.OPENAI_API_KEY || apiKeyFormData;
+
+        // Validate OpenAI API key
+        if (!API_KEY) {
+            return Response.json({ status: 400, error: "OpenAI API Key missing!" });
+        }
         // Validate file (size <= 2MB)
-        if (!file) {
+        else if (!file) {
             return Response.json({ status: 500, error: "File not uploaded" });
         } else if (file.size > 2 * 1024 * 1024) {
             return Response.json({ status: 500, error: "File size exceeds 2MB" });
         }
 
-        const calendar = await PDFToCalendar(file);
+        const calendar = await PDFToCalendar(file, API_KEY);
 
         return Response.json({ status: 200, data: calendar });
     } catch (error) {

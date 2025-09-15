@@ -12,6 +12,7 @@ export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [isConverting, setIsConverting] = useState<boolean>(false)
   const [calendar, setCalendar] = useState<CalendarObj | null>(null);
+  const [apiKey, setApiKey] = useState<string>("");
 
   const showFileUploadUI = () => {
     if (!fileInputRef?.current) return;
@@ -40,6 +41,7 @@ export default function Home() {
     setIsConverting(true);
     const formData = new FormData()
     formData.append('file', file);
+    if (apiKey.length > 0) formData.append('api_key', apiKey);
 
     // Trycatch parses response data
     try {
@@ -52,7 +54,7 @@ export default function Home() {
       if (result.success) {
         setCalendar(result.data);
       } else {
-        alert("Error:" + result.error);
+        alert("Error: " + result.error);
       }
     } catch (error) {
       alert("Error: " + error);
@@ -73,6 +75,10 @@ export default function Home() {
         <button className="border rounded-2xl px-2 py-1 bg-emerald-600" onClick={showFileUploadUI}>
           {file ? "Change File" : "Upload File"}
         </button>
+      </div>
+
+      <div className="flex justify-center p-1">
+        <input className="flex text-center border" type="password" placeholder="OpenAI API Key" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
       </div>
 
       <div className="flex justify-center p-1">
