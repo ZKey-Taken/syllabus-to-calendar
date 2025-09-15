@@ -25,6 +25,8 @@ A web app that transforms syllabus PDFs into a calendar view and syncs them with
 
 ## Getting Started
 
+**You can use the website or clone it:**
+
 1. Git clone the repository
 2. `cd` into the `syllabus-to-calendar` folder
 3. `touch .env` to create env file
