@@ -23,16 +23,23 @@ A web app that transforms syllabus PDFs into a calendar view and syncs them with
 - OpenAI API Key
 - Google Cloud Project with Calendar API enabled (Optional)
 
-## Get Started
+## Getting Started
 
-### Method 1 (Use Website):
+There are two ways to use this tool:
 
-    - Open website
-    - Upload a syllabus PDF
-    - Watch it do magic
+### Method 1: Run Locally
 
-### Method 2 (Copy Code):
+1. Git clone the repository
+2. `cd` into the `syllabus-to-calendar` folder
+3. `touch .env` to create env file
+4. Open env file and add your OpenAI API key: `OPENAI_API_KEY=your_key`
+5. In terminal, type `npm run dev` to start website locally
+6. Open the site and use the website
 
-    - Goto /src/app/api/convert/route.ts
-    - The main convert function is PDFToCalendar(pdfFile: File): Promise<Calendar[]>
-    - Copy it and use it
+### Method 2: Use Website
+
+1. Open the website
+2. Paste in your OpenAI API key (won't be saved by server)
+3. Upload your syllabus file
+4. Press "Convert" then wait
+5. Calendar shows up
